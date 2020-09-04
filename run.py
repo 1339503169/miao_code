@@ -13,8 +13,8 @@ app = Flask(__name__)
 model = None
 
 # 首先载入模型
-model_path = './bert/bert_dumpnew0.hdf5'
-dict_path = './bert/vocab.txt'
+model_path =''
+dict_path = ''
 
 maxlen = 64
 token_dict = {}
@@ -120,31 +120,9 @@ def contract():
 
                         # 如果合同文本不存在不能交易的物品 进入判断风险点阶段
                         type1 = request.values.get('type')
-                        supervisor_contract=['光船租赁合同','其他海事海商类合同','定期租船合同','海上保险合同','海上运输合同',
-                                             '海员劳务合同','港口作业合同','海难救助合同','航次租赁合同','船舶买卖合同','船舶建造合同'
-                                             ,'船舶租赁合同','中外合作经营企业合同','中外合资经营企业合同','中外定期租船合同','中外航次租船合同',
-                                             '其他涉外类合同','国际保险合同','国际建设工程合同','国际成套设备项目合同','国际租赁合同','国际货物运输贸易合同',
-                                             '国际货物运输合同','国际贷款合同','国际贸易代理合同','多式联运合同','对外加工装配合同','对外劳务合作合同',
-                                             '补偿贸易合同','彩票服务合同','网络空间租赁合同','汽车租赁合同','船舶租赁合同','融资租赁合同','设备租赁合同',
-                                             '其他投资理财类合同','外汇交易合同','委托理财合同','期货交易合同','证券上市合同','证券交易合同','证券回购合同',
-                                             '证券承销合同','证券投资咨询合同','其他身份关系类协议','抚养协议','收养协议','离婚协议','财产协议','遗产协议',
-                                             '信托合同','储蓄存款合同','其他银行业务类合同','开户合同','网上银行合同','银行结算合同','个人养老金保险条款',
-                                             '人寿保险合同','企业财产保险合同','住房保险合同','保险经纪合同','健康保险合同','其他保险类合同','医疗保险合同',
-                                             '家庭财产保险合同','建筑工程保险合同','意外伤害保险合同','财产保险合同','责任保险合同','货物运输保险合同',
-                                             '运输工具保险合同','其他信托类合同','基金信托合同','股权信托合同','财产信托合同','资产信托合同','专向资金贷款合同',
-                                             '买方信贷、政府贷款和混合借贷合同','住房贷款合同','保证担保借款合同','信托贷款合同','信用贷款合同','借款展期合同',
-                                             '农业贷款合同','助学贷款协议','固定资产贷款合同','国际借款合同','外汇借款合同','对外承包项目借款合同','工程建设贷款合同',
-                                             '技术改造借款合同','民间借贷合同','汽车贷款合同','消费借款合同','联营股本贷款合同','转贷款协议','配套人民币贷款合同',
-                                             '银团借款合同','土地出让合同','招投标买卖合同','政府采购合同','船舶买卖合同','调拨合同','进出口买卖合同','中外合作经营合同',
-                                             '中外合资经营合同','公司章程','房产开发合同','改制合同','联营合同','土地征用合同','房屋拆迁合同','补偿安置合同'
-                                ]
+                        supervisor_contract=[]
 
-                        contract_type = ['房屋买卖合同', '劳动合同', '一般买卖合同', '房屋租赁合同', '装饰装修合同',
-                                         '工程设计合同',  '加工合同', '专利转让合同', '抵押合同',
-                                         '专利实施许可合同', '技术转让合同', '商标转让合同', '维修合同', '商标许可合同', '技术许可合同',
-                                          '版权许可合同', '版权转让合同', '场地租赁合同', '工程咨询合同', '采购合同',
-                                         '技术服务合同', '工矿产品买卖合同', '软件著作权转让合同', '软件著作权许可使用合同', '软件开发合同',
-                                         '土地租赁合同','质押合同','经销合同']
+                        contract_type = []
                         if type1 in supervisor_contract:
                             return Response(json.dumps([{"600": "strong regulatory contract"}], ensure_ascii=False))
                         if type1 not in contract_type:
@@ -156,11 +134,7 @@ def contract():
                         # html = re.sub('。。', '。', html)
                         from contract_risks.identification import Id_process
                         res = ridk.process(html)
-                        # try:
-                        #
-                        # except Exception as err:
-                        #     print(err)
-                        #     return Response(json.dumps([{'500':'contract form is not reasonable'}],ensure_ascii=False))
+                     
                         if type(res)==dict:
                             return Response(json.dumps([{'500':'contract form is not reasonable'}],ensure_ascii=False))
                         try:
@@ -173,16 +147,6 @@ def contract():
                             if value==0:
                                 ress[key]=value
                         result = (iden, res[0], ress)
-                        # try:
-                        #     res = ridk.process(html)
-                        #     iden = Id_process(html, type1)
-                        #     result = (iden, res[0], res[1])
-                        # except Exception as err:
-                        #     end_time = time.time()
-                        #     print('用时{}'.format(end_time - start_time))
-                        #     return Response(
-                        #         json.dumps({'500': "Problems with identity recognition excepition is{}".format(err)},
-                        #                    ensure_ascii=False))
                         end_time = time.time()
                         print('用时{}'.format(end_time - start_time))
                         print(json.dumps(result, ensure_ascii=False))
