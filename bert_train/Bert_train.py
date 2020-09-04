@@ -18,9 +18,9 @@ train_data, train_label = pure_date()
 # 输入bert模型的字符长度，要保证序列长度不超过512
 maxlen = 128
 # 预训练好的模型
-config_path = '/home/cepu/py/javaFirstAPI/bert/chinese_L-12_H-768_A-12/bert_config.json'
-checkpoint_path = '/home/cepu/py/javaFirstAPI/bert/chinese_L-12_H-768_A-12/bert_model.ckpt'
-dict_path = '/home/cepu/py/javaFirstAPI/bert/chinese_L-12_H-768_A-12/vocab.txt'
+config_path =
+checkpoint_path = 
+dict_path = 
 
 # 将词表中的词编号转换为字典
 token_dict = {}
