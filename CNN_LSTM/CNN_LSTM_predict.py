@@ -66,6 +66,6 @@ def predict(text,textlength,embedding_dimension,model_path):
         return model
 
     model = CNNLSTM()
-    model.load_weights('model_path')
+    model.load_weights(model_path)
     result=model.predict(text)
     return [result]
