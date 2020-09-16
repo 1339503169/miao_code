@@ -1,0 +1,8 @@
+在使用selenium库时，调用代码时回出现
+Message: 'chromedriver' executable needs to be in PATH
+问题
+原因：在使用selenium时调用谷歌浏览器需要chromedriver的支持，需要下载文件
+解决方式：1.下载chromedriver，注意要关于chromedriver版本和chrome浏览器版本的对应关系
+	2.将chromedriver复制粘贴到chrome浏览器路径和python路径中
+	3.将chrome路径添加到系统环境变量中
+至此 selenium就可以正常运行
